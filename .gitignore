@@ -1,0 +1,9 @@
+.next
+node_modules
+.env
+.venv
+dist
+coverage
+*.log
+data/*.db
+prisma/*.db

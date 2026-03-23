@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Vendor {
+  id                    Int       @id @default(autoincrement())
+  vendorId              String    @unique @map("vendor_id")
+  vendorName            String    @map("vendor_name")
+  vendorDescription     String?   @map("vendor_description")
+  requestTitle          String?   @map("request_title")
+  requestDescription    String?   @map("request_description")
+  requestorName         String?   @map("requestor_name")
+  requestorEmail        String?   @map("requestor_email")
+  requestId             String?   @map("request_id")
+  department            String?
+  category              String?
+  subcategory           String?
+  status                String?
+  sourceLastUpdatedAt   DateTime? @map("source_last_updated_at")
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+
+  @@index([vendorName])
+  @@index([category])
+  @@index([subcategory])
+  @@index([status])
+  @@map("vendors")
+}
+
+model SearchLog {
+  id               Int      @id @default(autoincrement())
+  queryText        String   @map("query_text")
+  userName         String?  @map("user_name")
+  userEmail        String?  @map("user_email")
+  matchedVendorId  String?  @map("matched_vendor_id")
+  matchedVendorName String? @map("matched_vendor_name")
+  matchExplanation String?  @map("match_explanation")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  @@index([createdAt])
+  @@map("search_logs")
+}
+
+model SyncRun {
+  id               Int       @id @default(autoincrement())
+  startedAt        DateTime  @default(now()) @map("started_at")
+  finishedAt       DateTime? @map("finished_at")
+  status           String
+  recordsProcessed Int       @default(0) @map("records_processed")
+  errorMessage     String?   @map("error_message")
+
+  @@index([startedAt])
+  @@map("sync_runs")
+}
