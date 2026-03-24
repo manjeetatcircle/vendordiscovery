@@ -122,6 +122,16 @@ python3 -m inventory_sync.sync_zip_requests
 python3 -m inventory_sync.check_vendors
 ```
 
+To rebuild the app inventory from a vendor CSV with `Name`, `Categories`, and `Description`:
+
+```bash
+python3 -m inventory_sync.import_vendor_csv \
+  --csv-path "/absolute/path/to/vendors.csv" \
+  --db-path "prisma/dev.db"
+```
+
+Rows with blank descriptions are skipped.
+
 ## Search flow
 
 1. User submits a natural-language request.
